@@ -1,5 +1,4 @@
-/**
- * Based on code from sysinfo: https://crates.io/crates/sysinfo
+/* Based on code from sysinfo: https://crates.io/crates/sysinfo
  * Original licenses: MIT
  * Original author: Guillaume Gomez
  * License file: https://github.com/GuillaumeGomez/sysinfo/blob/master/LICENSE
