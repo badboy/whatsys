@@ -1,5 +1,9 @@
 # `whatsys` -- What's this?
 
+[![Crates.io version](https://img.shields.io/crates/v/whatsys.svg?style=flat-square)](https://crates.io/crates/whatsys)
+[![docs.rs docs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://docs.rs/whatsys)
+[![License: MIT](https://img.shields.io/github/license/badboy/whatsys?style=flat-square)](LICENSE)
+
 What kernel version is running?
 
 # Example
