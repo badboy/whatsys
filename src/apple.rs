@@ -4,7 +4,6 @@
  * Original author: Guillaume Gomez
  * License file: https://github.com/GuillaumeGomez/sysinfo/blob/master/LICENSE
  */
-
 use libc::c_int;
 
 fn get_system_info(value: c_int) -> Option<String> {
