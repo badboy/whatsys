@@ -4,7 +4,7 @@ What kernel version is running?
 
 # Example
 
-```
+```rust
 let kernel = whatsys::kernel_version(); // E.g. Some("20.3.0")
 ```
 
