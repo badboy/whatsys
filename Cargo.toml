@@ -5,6 +5,7 @@ authors = ["Jan-Erik Rediger <janerik@fnordig.de>"]
 edition = "2018"
 description = "Determine the kernel version"
 license = "MIT"
+repository = "https://github.com/badboy/whatsys"
 
 [dependencies]
 cfg-if = "1.0.0"
