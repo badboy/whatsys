@@ -1,4 +1,4 @@
-# `whatsys` -- What system is this?
+# `whatsys` -- What's this?
 
 What kernel version is running?
 
