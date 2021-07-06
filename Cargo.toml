@@ -1,6 +1,6 @@
 [package]
 name = "whatsys"
-version = "0.1.3-alpha.0"
+version = "0.2.0"
 authors = ["Jan-Erik Rediger <janerik@fnordig.de>"]
 edition = "2018"
 description = "Determine the kernel version"
