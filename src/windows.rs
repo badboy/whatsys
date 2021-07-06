@@ -1,9 +1,7 @@
-use libc::c_char;
-use std::{ffi, ptr};
+use libc::{c_char, c_int};
 
-extern "C" {
-    fn get_os_release() -> *const c_char;
-    fn str_free(ptr: *const c_char);
+extern "system" {
+    fn get_os_release(outbuf: *const c_char, outlen: usize) -> c_int;
 }
 
 /// Get the version of the currently running kernel.
@@ -18,14 +16,15 @@ extern "C" {
 /// Returns `None` if an error occured.
 pub fn kernel_version() -> Option<String> {
     unsafe {
-        let rp = get_os_release();
-        if rp == ptr::null() {
-            None
-        } else {
-            let typ = ffi::CStr::from_ptr(rp);
-            let res = Some(typ.to_string_lossy().into_owned());
-            str_free(rp);
-            res
+        // Windows 10 should report "10.0", which is 4 bytes,
+        // "unknown" is 7 bytes.
+        // We need to account for the null byte.
+        let size = 8;
+        let mut buf = vec![0; size];
+        let written = get_os_release(buf.as_mut_ptr() as _, size) as usize;
+        match written {
+            0 => None,
+            _ => Some(String::from_utf8_lossy(&buf[0..written]).into_owned()),
         }
     }
 }
