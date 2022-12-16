@@ -2,6 +2,7 @@ use libc::{c_char, c_int};
 
 extern "system" {
     fn get_os_release(outbuf: *const c_char, outlen: usize) -> c_int;
+    fn get_build_number(outbuf: *const c_char, outlen: usize) -> c_int;
 }
 
 /// Get the version of the currently running kernel.
@@ -25,6 +26,17 @@ pub fn kernel_version() -> Option<String> {
         match written {
             0 => None,
             _ => Some(String::from_utf8_lossy(&buf[0..written]).into_owned()),
+        }
+    }
+}
+
+pub fn windows_build_number() -> Option<i32> {
+    unsafe {
+        // Get windows build number
+        let build_number = get_build_number();
+        match build_number {
+            0 => None,
+            _ => Some(build_number),
         }
     }
 }
