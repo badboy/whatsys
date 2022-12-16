@@ -62,45 +62,25 @@ int get_os_release(char *outbuf, size_t outlen) {
 /**
  * Get the windows build version.
  *
- * Works like get_os_release, just returns a different field from the 
+ * Works similarly to get_os_release, but returns a different field from the 
  * struct returned by GetVersionEx.
  *
  * [`GetVersionEx`]: https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexa
  *
- * ## Arguments
- *
- * * `outbuf` - Pointer to an allocated buffer of size `outlen`.
- *              The OS version will be written here, null-terminated.
- *              If the version is longer than the buffer it will be truncated.
- * * `outlen` - Size of the buffer.
- *
  * ## Return value
  *
- * Returns the number of bytes written.
+ * Returns the build number as an int.
  */
 int get_build_number() {
-/* assert(outlen > 1); */
-
   OSVERSIONINFO osvi;
 
   ZeroMemory(&osvi, sizeof(osvi));
   osvi.dwOSVersionInfoSize = sizeof(osvi);
 
-  int written = 0;
   if (GetVersionEx(&osvi)) {
-    /* written = snprintf(outbuf, outlen, "%ld", osvi.dwBuildNumber); */
     return osvi.dwBuildNumber;
-  } else {
-    return 0;
-    /* int res = strncpy_s(outbuf, outlen, "unknown", strlen("unknown")); */
-    /* if (res != 0) { */
-    /*   return 0; */
-    /* } */
-    /* written = strlen("unknown"); */
-  }
+  }    
 
-  // If the output buffer is smaller than the version (or "unknown"),
-  // we only wrote until the buffer was full.
-  /* return min(written, (int)outlen - 1); */
+  return 0;
 }
 

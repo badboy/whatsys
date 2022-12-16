@@ -57,4 +57,12 @@ mod test {
     fn gets_a_version() {
         assert!(kernel_version().is_some());
     }
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn test_windows_build_number() {
+        use windows::windows_build_number;
+        let build_number = windows::windows_build_number();
+        assert!(build_number.is_some());
+    }
 }
