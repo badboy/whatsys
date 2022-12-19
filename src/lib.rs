@@ -17,7 +17,7 @@
 //!
 //! # License
 //!
-//! MIT. Copyright (c) 2021 Jan-Erik Rediger
+//! MIT. Copyright (c) 2021-2022 Jan-Erik Rediger
 //!
 //! Based on:
 //!
@@ -28,7 +28,7 @@
 //! [sysinfo-mit]: https://github.com/GuillaumeGomez/sysinfo/blob/master/LICENSE
 
 #![deny(missing_docs)]
-#![deny(broken_intra_doc_links)]
+#![deny(rustdoc::broken_intra_doc_links)]
 
 cfg_if::cfg_if! {
     if #[cfg(target_os = "macos")] {
