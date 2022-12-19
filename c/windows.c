@@ -62,8 +62,8 @@ int get_os_release(char *outbuf, size_t outlen) {
 /**
  * Get the windows build version.
  *
- * Works similarly to get_os_release, but returns a different field from the 
- * struct returned by GetVersionEx.
+ * Works similarly to `get_os_release`, but returns the `dwBuildNumber` field from the 
+ * struct returned by `GetVersionEx`.
  *
  * [`GetVersionEx`]: https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexa
  *
