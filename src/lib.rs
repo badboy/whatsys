@@ -49,6 +49,9 @@ cfg_if::cfg_if! {
 
 pub use system::kernel_version;
 
+#[cfg(target_os = "windows")]
+pub use system::windows_build_number;
+
 #[cfg(test)]
 mod test {
     use super::*;
