@@ -4,7 +4,6 @@
 [![docs.rs docs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://docs.rs/whatsys)
 [![License: MIT](https://img.shields.io/github/license/badboy/whatsys?style=flat-square)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/badboy/whatsys/ci.yml?branch=main&style=flat-square)](https://github.com/badboy/whatsys/actions/workflows/ci.yml?query=workflow%3ACI)
- https://img.shields.io/github/actions/workflow/status/<user>/<repo>/test.yml?branch=main
 
 What kernel version is running?
 
