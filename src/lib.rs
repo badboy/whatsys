@@ -49,6 +49,9 @@ cfg_if::cfg_if! {
 
 pub use system::kernel_version;
 
+#[cfg(target_os = "windows")]
+pub use system::windows_build_number;
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -56,5 +59,12 @@ mod test {
     #[test]
     fn gets_a_version() {
         assert!(kernel_version().is_some());
+    }
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn test_windows_build_number() {
+        let build_number = windows::windows_build_number();
+        assert!(build_number.is_some());
     }
 }

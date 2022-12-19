@@ -58,3 +58,29 @@ int get_os_release(char *outbuf, size_t outlen) {
   // we only wrote until the buffer was full.
   return min(written, (int)outlen - 1);
 }
+
+/**
+ * Get the windows build version.
+ *
+ * Works similarly to `get_os_release`, but returns the `dwBuildNumber` field from the 
+ * struct returned by `GetVersionEx`.
+ *
+ * [`GetVersionEx`]: https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexa
+ *
+ * ## Return value
+ *
+ * Returns the build number as an int.
+ */
+int get_build_number() {
+  OSVERSIONINFO osvi;
+
+  ZeroMemory(&osvi, sizeof(osvi));
+  osvi.dwOSVersionInfoSize = sizeof(osvi);
+
+  if (GetVersionEx(&osvi)) {
+    return osvi.dwBuildNumber;
+  }    
+
+  return 0;
+}
+
