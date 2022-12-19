@@ -1,0 +1,16 @@
+[package]
+name = "windows-example"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+whatsys = { path = ".." }
+
+[build-dependencies]
+embed-resource = "1.8"
+
+[features]
+default = []
+# Embed a manifest to target
+manifest = []
