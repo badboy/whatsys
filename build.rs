@@ -4,10 +4,7 @@ use std::env;
 
 fn rmain() -> Option<()> {
     // Missing? No idea what's going on.
-    let target = env::var("TARGET").ok()?;
-    // Not set? Definitely not windows then.
-    let target_os = target.split('-').nth(2)?;
-
+    let target_os = env::var("CARGO_CFG_TARGET_OS").ok()?;
     if target_os == "windows" {
         let mut builder = cc::Build::new();
         builder.file("c/windows.c");
