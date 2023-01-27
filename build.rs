@@ -1,5 +1,3 @@
-extern crate cc;
-
 use std::env;
 
 fn rmain() -> Option<()> {
