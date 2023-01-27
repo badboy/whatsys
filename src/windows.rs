@@ -1,6 +1,6 @@
 use libc::{c_char, c_int};
 
-extern "system" {
+extern "C" {
     fn get_os_release(outbuf: *const c_char, outlen: usize) -> c_int;
     fn get_build_number() -> c_int;
 }
