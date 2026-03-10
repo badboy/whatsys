@@ -59,3 +59,55 @@ fn get_system_info(value: c_int) -> Option<String> {
 pub fn kernel_version() -> Option<String> {
     get_system_info(libc::KERN_OSRELEASE)
 }
+
+/// Retrieve the OS version information.
+///
+/// Note that this only works on macOS 10.13.4+.
+///
+/// Based on
+/// <https://github.com/rust-minidump/minidump-writer/blob/main/src/mac/streams/system_info.rs>
+/// Also under [MIT license](https://github.com/rust-minidump/minidump-writer/blob/94305066631b93eba768050e362e7a4bed40de1e/LICENSE).
+#[cfg(target_os = "macos")]
+pub fn macos_version() -> String {
+    sysctl_string(b"kern.osproductversion\0")
+}
+
+#[cfg(target_os = "macos")]
+fn sysctl_string(name: &[u8]) -> String {
+    let mut buf_len = 0;
+
+    // SAFETY: syscalls
+    let string_buf = unsafe {
+        // Retrieve the size of the string (including null terminator)
+        if libc::sysctlbyname(
+            name.as_ptr().cast(),
+            std::ptr::null_mut(),
+            &mut buf_len,
+            std::ptr::null_mut(),
+            0,
+        ) != 0
+            || buf_len <= 1
+        {
+            return String::new();
+        }
+
+        let mut buff = Vec::new();
+        buff.resize(buf_len, 0);
+
+        if libc::sysctlbyname(
+            name.as_ptr().cast(),
+            buff.as_mut_ptr().cast(),
+            &mut buf_len,
+            std::ptr::null_mut(),
+            0,
+        ) != 0
+        {
+            return String::new();
+        }
+
+        buff.pop(); // remove null terminator
+        buff
+    };
+
+    String::from_utf8(string_buf).unwrap_or_default()
+}

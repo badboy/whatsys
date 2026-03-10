@@ -52,6 +52,9 @@ pub use system::kernel_version;
 #[cfg(target_os = "windows")]
 pub use system::windows_build_number;
 
+#[cfg(target_os = "macos")]
+pub use system::macos_version;
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -66,5 +69,12 @@ mod test {
     fn test_windows_build_number() {
         let build_number = windows::windows_build_number();
         assert!(build_number.is_some());
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn test_macos_version() {
+        let macos_version = macos_version();
+        assert!(!macos_version.is_empty());
     }
 }
