@@ -1,3 +1,5 @@
+use sysinfo::System;
+
 #[cfg(target_os = "windows")]
 fn main() {
     let kernel_version = whatsys::kernel_version().unwrap();
@@ -5,6 +7,12 @@ fn main() {
 
     println!("Kernel: {}", kernel_version);
     println!("Build Number: {}", build_number);
+
+    println!("System name:             {:?}", System::name());
+    println!("System kernel version:   {:?}", System::kernel_version());
+    println!("System OS version:       {:?}", System::os_version());
+    println!("System long OS version:  {:?}", System::long_os_version());
+    println!("System host name:        {:?}", System::host_name());
 
     #[cfg(feature = "manifest")]
     {

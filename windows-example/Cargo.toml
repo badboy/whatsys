@@ -6,6 +6,7 @@ publish = false
 
 [dependencies]
 whatsys = { path = ".." }
+sysinfo = "0.38.3"
 
 [build-dependencies]
 embed-resource = "1.8"
