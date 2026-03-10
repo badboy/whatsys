@@ -4,58 +4,65 @@
  * License file: https://github.com/GuillaumeGomez/sysinfo/blob/master/LICENSE
  */
 
-use libc::c_int;
-
-fn get_system_info(value: c_int) -> Option<String> {
-    let mut mib: [c_int; 2] = [libc::CTL_KERN, value];
+fn get_system_info(name: &[u8]) -> Option<String> {
     let mut size = 0;
 
     // Call first to get size
-    unsafe {
-        libc::sysctl(
-            mib.as_mut_ptr(),
-            2,
+    //
+    // SAFETY:
+    // * It's a syscall
+    // * We control the input. `name` is guaranteed to be a non-null slice.
+    let string_buf = unsafe {
+        // Retrieve the size of the string (including null terminator)
+        if libc::sysctlbyname(
+            name.as_ptr().cast(),
             std::ptr::null_mut(),
             &mut size,
             std::ptr::null_mut(),
             0,
-        )
-    };
-
-    // exit early if we did not update the size
-    if size == 0 {
-        return None;
-    }
-
-    // set the buffer to the correct size
-    let mut buf = vec![0_u8; size as usize];
-
-    if unsafe {
-        libc::sysctl(
-            mib.as_mut_ptr(),
-            2,
-            buf.as_mut_ptr() as _,
-            &mut size,
-            std::ptr::null_mut(),
-            0,
-        )
-    } == -1
-    {
-        // If command fails return default
-        None
-    } else {
-        if let Some(pos) = buf.iter().position(|x| *x == 0) {
-            // Shrink buffer to terminate the null bytes
-            buf.resize(pos, 0);
+        ) != 0
+            || size <= 1
+        {
+            // exit early if we did not update the size
+            return None;
         }
 
-        String::from_utf8(buf).ok()
-    }
+        let mut buff = Vec::new();
+        buff.resize(size, 0);
+
+        if libc::sysctlbyname(
+            name.as_ptr().cast(),
+            buff.as_mut_ptr().cast(),
+            &mut size,
+            std::ptr::null_mut(),
+            0,
+        ) != 0
+        {
+            // If command fails return default
+            return None;
+        }
+
+        buff.pop(); // remove null terminator
+        buff
+    };
+
+    String::from_utf8(string_buf).ok()
 }
 
 /// Get the version of the currently running kernel.
 ///
 /// Returns `None` if an error occured.
 pub fn kernel_version() -> Option<String> {
-    get_system_info(libc::KERN_OSRELEASE)
+    get_system_info(b"kern.osrelease\0")
+}
+
+/// Retrieve the OS version information.
+///
+/// Note that this only works on macOS 10.13.4+.
+///
+/// Based on
+/// <https://github.com/rust-minidump/minidump-writer/blob/main/src/mac/streams/system_info.rs>
+/// Also under [MIT license](https://github.com/rust-minidump/minidump-writer/blob/94305066631b93eba768050e362e7a4bed40de1e/LICENSE).
+pub fn macos_version() -> Option<String> {
+    get_system_info(b"kern.osproductversion\0")
 }
