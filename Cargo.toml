@@ -8,8 +8,11 @@ license = "MIT"
 repository = "https://github.com/badboy/whatsys"
 
 [package.metadata.docs.rs]
-default-target = "x86_64-unknown-linux-gnu"
-targets = ["x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-pc-windows-msvc"]
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "aarch64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+]
 
 [dependencies]
 cfg-if = "1.0"
