@@ -30,18 +30,20 @@
 #![deny(missing_docs)]
 #![deny(rustdoc::broken_intra_doc_links)]
 
-cfg_if::cfg_if! {
-    if #[cfg(target_os = "macos")] {
+cfg_select! {
+    target_os = "macos" => {
         mod apple;
         use apple as system;
-
-    } else if #[cfg(any(target_os = "linux", target_os = "android"))] {
+    }
+    any(target_os = "linux", target_os = "android") => {
         mod linux;
         use linux as system;
-    } else if #[cfg(windows)] {
+    }
+    windows => {
         mod windows;
         use windows as system;
-    } else {
+    }
+    _ => {
         mod fallback;
         use fallback as system;
     }
