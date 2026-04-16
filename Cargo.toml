@@ -6,6 +6,7 @@ edition = "2018"
 description = "Determine the kernel version"
 license = "MIT"
 repository = "https://github.com/badboy/whatsys"
+rust-version = "1.95.0"
 
 [package.metadata.docs.rs]
 targets = [
@@ -15,7 +16,6 @@ targets = [
 ]
 
 [dependencies]
-cfg-if = "1.0"
 libc = "0.2"
 
 [build-dependencies]
